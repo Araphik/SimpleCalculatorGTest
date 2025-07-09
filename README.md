@@ -68,28 +68,28 @@
 
 ## Инструкция по развертке тестов
 ```bash
-	sudo apt-get update
-	sudo apt-get install -y libgtest-dev google-mock cmake build-essential
-	cd /usr/src/gtest
-	sudo mkdir -p build
-	cd build
-	sudo cmake ..
-	sudo make
-	ls lib
-	sudo cp lib/*.a /usr/lib
-	cd /usr/src/googletest
-	sudo mkdir build
-	cd build/
-	sudo cmake ..
-	sudo make
-	sudo make install
-	cd /folder/with/CalcGTest
-	rm -rf build
-	mkdir build
-	cd build
-	cmake ..
-	make
-	./runTests
+sudo apt-get update
+sudo apt-get install -y libgtest-dev google-mock cmake build-essential
+cd /usr/src/gtest
+sudo mkdir -p build
+cd build
+sudo cmake ..
+sudo make
+ls lib
+sudo cp lib/*.a /usr/lib
+cd /usr/src/googletest
+sudo mkdir build
+cd build/
+sudo cmake ..
+sudo make
+sudo make install
+cd /folder/with/CalcGTest
+rm -rf build
+mkdir build
+cd build
+cmake ..
+make
+./runTests
 ```
 
 ## Обнаруженные проблемы в исходной библиотеке
@@ -103,7 +103,6 @@
 Чтобы исправить это, нам нужно изменить SimpleCalculator, чтобы разрешить изменение объекта истории. Поскольку ссылки не могут быть переназначены, мы можем:
 
 1) Использовать указатель (IHistory*) вместо ссылки.
-
 2) Сохранить ссылку, но создать новый экземпляр SimpleCalculator с новой историей.
 
 ### Отсутствие проверки деления на ноль
@@ -123,18 +122,18 @@ int result = a / b;
 Добавить проверку деления на ноль в функцию Divide(int a, int b)
 
 ```bash
-	if (b == 0) {
-	    throw std::invalid_argument("Division by zero"); 
-	}
+if (b == 0) {
+	throw std::invalid_argument("Division by zero"); 
+}
 ```
 
 ### Отсутствие проверки на переполнение
 
 В функциях 
 ```bash
-	int SimpleCalculator::Add(int a, int b)
-	int SimpleCalculator::Subtract(int a, int b)
-	int SimpleCalculator::Multiply(int a, int b)
+int SimpleCalculator::Add(int a, int b)
+int SimpleCalculator::Subtract(int a, int b)
+int SimpleCalculator::Multiply(int a, int b)
 ```
 
 Отсутствует проверка на переполнение для типа Int. Поэтому, если результат арифметической операции выходит за пределы диапазона типа Int, то возникает переполнение, что приводит к некорректному результату без явной ошибки.
@@ -145,26 +144,26 @@ int result = a / b;
 
 ## Покрытие кода с помощью codecoverage
 ```bash
-	Reading tracefile coverage_filtered.info.
-	Found 6 entries.
-	Found common filename prefix "/home/kali/Documents"
-	Generating output.
-	Processing file CalcGTest/IHistory.h
-	lines=1 hit=1 functions=2 hit=1
-	Processing file CalcGTest/ICalculator.h
-	lines=1 hit=1 functions=2 hit=1
-	Processing file CalcGTest/InMemoryHistory.h
-	lines=1 hit=1 functions=1 hit=1
-	Processing file CalcGTest/InMemoryHistory.cpp
-	lines=6 hit=6 functions=2 hit=2
-	Processing file CalcGTest/SimpleCalculatorTest.cpp
-	lines=225 hit=222 functions=151 hit=148
-	Processing file CalcGTest/SimpleCalculator.cpp
-	lines=46 hit=41 functions=7 hit=7
-	Overall coverage rate:
-	source files: 6
-	lines.......: 97.1% (272 of 280 lines)
-	functions...: 97.0% (160 of 165 functions)
-	Message summary:
-	no messages were reported
+Reading tracefile coverage_filtered.info.
+Found 6 entries.
+Found common filename prefix "/home/kali/Documents"
+Generating output.
+Processing file CalcGTest/IHistory.h
+lines=1 hit=1 functions=2 hit=1
+Processing file CalcGTest/ICalculator.h
+lines=1 hit=1 functions=2 hit=1
+Processing file CalcGTest/InMemoryHistory.h
+lines=1 hit=1 functions=1 hit=1
+Processing file CalcGTest/InMemoryHistory.cpp
+lines=6 hit=6 functions=2 hit=2
+Processing file CalcGTest/SimpleCalculatorTest.cpp
+lines=225 hit=222 functions=151 hit=148
+Processing file CalcGTest/SimpleCalculator.cpp
+lines=46 hit=41 functions=7 hit=7
+Overall coverage rate:
+source files: 6
+lines.......: 97.1% (272 of 280 lines)
+functions...: 97.0% (160 of 165 functions)
+Message summary:
+no messages were reported
 ```
